@@ -1,0 +1,37 @@
+<!-- templates/about_us.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'main:about_us' %}" class="btn btn-secondary">About Us</a>
+            <a href="{% url 'main:create_product' %}" class="btn btn-success">Create Product</a>
+            <a href="{% url 'main:show_products' %}" class="btn btn-info">Products</a>
+            
+        </nav>
+    </header>
+
+    <main>
+        <h1>About Us</h1>
+        <p>This is the About Us page.</p>
+        
+        <!-- Informasi Pembuat -->
+        <div>
+            <h2>Creator Information</h2>
+            <p><strong>Name:</strong> {{ name }}</p>
+            <p><strong>Class:</strong> {{ class }}</p>
+            <p><strong>NPM:</strong> {{ npm }}</p>
+        </div>
+    </main>
+
+    <footer>
+        <!-- Footer content -->
+    </footer>
+</body>
+</html>
