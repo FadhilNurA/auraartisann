@@ -132,18 +132,18 @@ csrf_token digunakan untuk melindungi aplikasi Django dari serangan CSRF (Cross-
 screenshot:
 
 XML
-![alt_text](?raw=true)
+![alt_text](https://github.com/FadhilNurA/auraartisann/blob/main/gambar/xml.png?raw=true)
 
 
 JSON
-![alt_text](?raw=true)
+![alt_text](https://github.com/FadhilNurA/auraartisann/blob/main/gambar/json.png?raw=true)
 
 
 
 XML by Id
-![alt_text](?raw=true)
+![alt_text](https://github.com/FadhilNurA/auraartisann/blob/main/gambar/xml_show_id.png?raw=true)
 
 
 
 Json by Id
-![alt_text](?raw=true)
+![alt_text](https://github.com/FadhilNurA/auraartisann/blob/main/gambar/json_show_id.png?raw=true)
