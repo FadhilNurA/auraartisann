@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+from main.views import register
+from main.views import login_user
+from main.views import logout_user
 
 app_name = 'main'
 
@@ -12,4 +15,9 @@ urlpatterns = [
     path('products/xml/', views.show_xml, name='show_xml'),  # URL untuk menampilkan data produk dalam format XML
     path('products/json/<str:id>/', views.show_json_by_id, name='show_json_by_id'),  # URL untuk menampilkan produk dalam format JSON berdasarkan ID
     path('products/xml/<str:id>/', views.show_xml_by_id, name='show_xml_by_id'),  # URL untuk menampilkan produk dalam format XML berdasarkan ID
+    path('register/', register, name='register'),
+    path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),
+    path('my_account/', views.my_account, name='my_account'),
+
 ]

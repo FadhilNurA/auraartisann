@@ -1,5 +1,6 @@
 from django.db import models
 import uuid  # Tambahkan di bagian atas
+from django.contrib.auth.models import User
 
 class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)  # Menambahkan UUID sebagai primary key
@@ -11,6 +12,7 @@ class Product(models.Model):
     image = models.ImageField(upload_to='product_images/', blank=True, null=True)  # Gambar item
     rating = models.FloatField(default=0.0)  # Rating item
     date_added = models.DateField(auto_now_add=True)  # Tanggal item ditambahkan
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.name} - {self.price}"

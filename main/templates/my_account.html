@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>My Account</title>
+{% endblock meta %}
+
+{% block content %}
+<h1>My Account</h1>
+
+{% if user.is_authenticated %}
+    <p>Hello, {{ name }}!</p> 
+
+    <!-- Logout Form -->
+    <form method="POST" action="{% url 'main:logout' %}">
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+    </form>
+    <h2>Special Method Access</h2>
+    {% if name == "muhammad.fadhil38" or name == "furina.123" %}
+    <p>This section is only visible to muhammad.fadhil38 and furina.123.</p>
+        <a href="{% url 'main:create_product' %}" class="btn btn-success">Create Product</a>
+        <a href="{% url 'main:show_products' %}" class="btn btn-info">Products</a>    {% else %}
+        <p>You do not have access to this section.</p>
+    {% endif %}
+
+{% else %}
+    <p>You are not logged in. Please <a href="{% url 'main:login' %}">login</a> to access more features.</p>
+{% endif %}
+
+<!-- Tombol "Back" ke Index -->
+<h2>Tombol Kembali</h2>
+<a href="{% url 'main:index' %}" class="btn btn-primary">Back to Home</a>
+</a>
+<h5>Sesi terakhir login: {{ last_login }}
+</h5>
+{% endblock content %}

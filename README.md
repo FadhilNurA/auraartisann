@@ -147,3 +147,103 @@ XML by Id
 
 Json by Id
 ![alt_text](?raw=true)
+
+
+
+
+========================================================================================================================================
+
+Tugas 4
+
+1. Mengimplementasikan Fungsi Registrasi, Login, dan Logout
+Langkah-langkah:
+
+Registrasi:
+
+Buat register.html dengan form untuk username, password, dan confirm password.
+Tambahkan view register untuk menangani registrasi pengguna baru.
+Gunakan UserCreationForm atau buat form sendiri untuk registrasi.
+Pada form valid, simpan user dan redirect ke halaman login atau halaman utama.
+
+Login:
+
+Buat login.html dengan form untuk username dan password.
+Tambahkan view login menggunakan authenticate dan login dari Django.
+Set cookie last_login saat user berhasil login.
+
+Logout:
+
+Tambahkan view logout menggunakan logout dari Django.
+Redirect pengguna ke halaman login setelah logout.
+
+2. Membuat Dua Akun Pengguna dengan Tiga Dummy Data
+Langkah-langkah:
+Buat dua akun pengguna melalui halaman registrasi atau shell Django.
+
+Buat tiga dummy data untuk setiap akun menggunakan model Product yang terhubung ke User.
+
+Dummy 1:
+muhammad.fadhil38
+Fadhil0912
+
+Product List
+gedagedigedagedao - 1000 - 1 available
+gedagedigedagedao - 1000 - 1 available
+gedagedigedagedao - 1000 - 1 available
+ei ei ei - 1000 - 3 available
+
+
+Dummy 2:
+furina.123
+Admin#1234
+
+Product List
+Test2-1 - 1 - 100 available
+Test2-2 - 1000 - 1 available
+Test2-3 - 10000 - 1 available
+
+3. Menghubungkan Model Product dengan User
+Langkah-langkah:
+Pastikan model Product memiliki field user sebagai ForeignKey.
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+Saat menyimpan Product melalui form, pastikan untuk menetapkan user.
+    product = form.save(commit=False)
+    product.user = request.user
+    product.save()
+
+4. Menampilkan Detail Informasi Pengguna yang Logged In
+Ubah my_account.html untuk menampilkan detail informasi pengguna seperti username dan last_login.
+<p>Hello, {{ name }}!</p>
+<h5>Sesi terakhir login: {{ last_login }}</h5>
+
+Pastikan views.py mengirim context name dan last_login.
+
+def my_account(request):
+    context = {
+        'name': request.user.username,
+        'last_login': request.COOKIES.get('last_login', 'Never'),
+    }
+    return render(request, 'my_account.html', context)
+
+5. Menjawab Pertanyaan di README.md
+
+Perbedaan antara HttpResponseRedirect() dan redirect():
+HttpResponseRedirect: Kelas yang menghasilkan respons redirect dengan status HTTP 302. Memerlukan URL secara eksplisit.
+redirect(): Shortcut yang menerima argumen URL atau nama view dan mengembalikan HttpResponseRedirect.
+
+Cara Kerja Penghubungan Model Product dengan User:
+Menggunakan ForeignKey di Product untuk mereferensikan User. Setiap Product akan terhubung ke satu user tertentu.
+
+Perbedaan authentication dan authorization:
+Authentication: Proses verifikasi identitas pengguna (misalnya, login).
+Authorization: Proses menentukan hak akses pengguna terhadap sumber daya tertentu setelah pengguna terverifikasi.
+
+Bagaimana Django Mengimplementasikan Authentication dan Authorization?:
+Authentication dilakukan melalui backend autentikasi seperti authenticate() dan login().
+Authorization dilakukan menggunakan permission dan decorator seperti @login_required.\
+
+Bagaimana Django Mengingat Pengguna yang Telah Login?:
+Django menggunakan session yang disimpan di cookies untuk mengingat pengguna yang login. Cookies juga digunakan untuk menyimpan data seperti last_login.
+
+
