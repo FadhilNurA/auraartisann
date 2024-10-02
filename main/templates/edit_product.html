@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Edit Product</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-screen bg-yellow-50">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-lg border border-gray-300">
+        <h1 class="text-2xl font-bold mb-6 text-center">Edit Product</h1>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="space-y-4">
+                {% for field in form %}
+                    <div class="relative">
+                        {{ field.label }}
+                        <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" value="{{ field.value }}" class="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="mt-6 text-center">
+                <input type="submit" value="Edit Product" class="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 transition duration-200"/>
+            </div>
+        </form>
+
+        <!-- Back Button -->
+        <div class="mt-6 text-center">
+            <a href="{% url 'main:show_products' %}">
+                <button class="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200">Back to Product List</button>
+            </a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

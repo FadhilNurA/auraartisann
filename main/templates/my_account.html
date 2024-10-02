@@ -5,32 +5,45 @@
 {% endblock meta %}
 
 {% block content %}
-<h1>My Account</h1>
+{% include 'navbar.html' %}
 
-{% if user.is_authenticated %}
-    <p>Hello, {{ name }}!</p> 
+<div class="flex items-center justify-center min-h-screen bg-yellow-50">
+    <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-6 text-center">My Account</h1>
 
-    <!-- Logout Form -->
-    <form method="POST" action="{% url 'main:logout' %}">
-        {% csrf_token %}
-        <button type="submit">Log Out</button>
-    </form>
-    <h2>Special Method Access</h2>
-    {% if name == "muhammad.fadhil38" or name == "furina.123" %}
-    <p>This section is only visible to muhammad.fadhil38 and furina.123.</p>
-        <a href="{% url 'main:create_product' %}" class="btn btn-success">Create Product</a>
-        <a href="{% url 'main:show_products' %}" class="btn btn-info">Products</a>    {% else %}
+        {% if user.is_authenticated %}
+        <p class="mb-4">Hello, {{ name }}!</p> 
+
+        <!-- Logout Form -->
+        <form method="POST" action="{% url 'main:logout' %}" class="mb-4">
+            {% csrf_token %}
+            <button
+                type="submit"
+                class="w-full bg-red-500 text-white py-1 rounded hover:bg-red-600 transition duration-200 text-sm"
+            >
+                Log Out
+            </button>
+        </form>
+
+        <h2 class="text-lg font-semibold mb-4">Special Method Access</h2>
+        {% if name == "muhammad.fadhil38" or name == "furina.123" %}
+        <p class="mb-4">This section is only visible to muhammad.fadhil38 and furina.123.</p>
+            <a href="{% url 'main:create_product' %}" class="w-full bg-green-500 text-white py-1 rounded hover:bg-green-600 transition duration-200 mb-2 text-sm">Create Product</a>
+            <a href="{% url 'main:show_products' %}" class="w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600 transition duration-200 text-sm">Products</a>    
+        {% else %}
         <p>You do not have access to this section.</p>
-    {% endif %}
+        {% endif %}
 
-{% else %}
-    <p>You are not logged in. Please <a href="{% url 'main:login' %}">login</a> to access more features.</p>
-{% endif %}
+        {% else %}
+        <p>You are not logged in. Please <a href="{% url 'main:login' %}" class="text-blue-600 hover:underline">login</a> to access more features.</p>
+        {% endif %}
 
-<!-- Tombol "Back" ke Index -->
-<h2>Tombol Kembali</h2>
-<a href="{% url 'main:index' %}" class="btn btn-primary">Back to Home</a>
-</a>
-<h5>Sesi terakhir login: {{ last_login }}
-</h5>
+        <!-- Back to Index Button -->
+        <h2 class="text-lg font-semibold mt-6">Tombol Kembali</h2>
+        <a href="{% url 'main:index' %}" class="w-full bg-blue-500 text-white py-1 rounded hover:bg-blue-600 transition duration-200 text-sm">Back to Home</a>
+
+        <h5 class="mt-4 text-sm text-gray-600">Sesi terakhir login: {{ last_login }}</h5>
+    </div>
+</div>
+
 {% endblock content %}

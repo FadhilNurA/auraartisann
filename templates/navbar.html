@@ -1,0 +1,64 @@
+<nav class="bg-white shadow-md fixed top-0 left-0 z-40 w-full">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+            <!-- Logo dan Title -->
+            <div class="flex items-center">
+                <a class="text-2xl font-bold" href="{% url 'main:index' %}">Aura Artisan</a>
+            </div>
+
+            <!-- Links untuk layar besar -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="{% url 'main:index' %}" class="text-gray-600 hover:text-blue-600">Home</a>
+                <a href="#new-arrivals" class="text-gray-600 hover:text-blue-600">New Arrival</a>
+                <a href="{% url 'main:about_us' %}" class="text-gray-600 hover:text-blue-600">About Us</a>
+
+                {% if user.is_authenticated %}
+                    <a href="{% url 'main:my_account' %}" class="text-gray-600 hover:text-blue-600">My Account</a>
+                {% else %}
+                    <a href="{% url 'main:login' %}" class="text-gray-600 hover:text-blue-600">Login</a>
+                {% endif %}
+
+                {% if name == "muhammad.fadhil38" or name == "furina.123" %}
+                    <a href="{% url 'main:show_products' %}" class="text-gray-600 hover:text-blue-600">Products</a>
+                {% endif %}
+            </div>
+
+            <!-- Tombol untuk menu mobile -->
+            <div class="md:hidden flex items-center">
+                <button class="mobile-menu-button">
+                    <svg class="w-6 h-6 text-gray-600" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
+                        <path d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu mobile -->
+    <div class="mobile-menu hidden md:hidden px-4 w-full">
+        <div class="pt-2 pb-3 space-y-1 mx-auto">
+            <a href="{% url 'main:index' %}" class="block text-center text-gray-600 hover:text-blue-600">Home</a>
+            <a href="#new-arrivals" class="block text-center text-gray-600 hover:text-blue-600">New Arrival</a>
+            <a href="{% url 'main:about_us' %}" class="block text-center text-gray-600 hover:text-blue-600">About Us</a>
+
+            {% if user.is_authenticated %}
+                <a href="{% url 'main:my_account' %}" class="block text-center text-gray-600 hover:text-blue-600">My Account</a>
+            {% else %}
+                <a href="{% url 'main:login' %}" class="block text-center text-gray-600 hover:text-blue-600">Login</a>
+            {% endif %}
+
+            {% if name == "muhammad.fadhil38" or name == "furina.123" %}
+                <a href="{% url 'main:show_products' %}" class="block text-center text-gray-600 hover:text-blue-600">Products</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        const btn = document.querySelector("button.mobile-menu-button");
+        const menu = document.querySelector(".mobile-menu");
+
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+        });
+    </script>
+</nav>

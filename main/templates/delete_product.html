@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hapus Produk</title>
+</head>
+<body>
+    <h1>Konfirmasi Hapus Produk</h1>
+    <p>Apakah Anda yakin ingin menghapus produk "{{ product.name }}"?</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Hapus</button>
+        <a href="{% url 'main:products' %}">Batal</a>
+    </form>
+</body>
+</html>

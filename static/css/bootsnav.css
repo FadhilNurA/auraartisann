@@ -109,7 +109,7 @@ nav.bootsnav.navbar-full{
 
 nav.bootsnav.navbar-full .navbar-header{
     display: block;
-    width: 100%;
+    width: auto;
 }
 
 nav.bootsnav.navbar-full .navbar-toggle{

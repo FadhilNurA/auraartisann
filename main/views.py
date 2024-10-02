@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
 from main.forms import ProductForm
 from main.models import Product
@@ -13,8 +13,12 @@ import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 
+
 def index(request):
-    return render(request, 'index.html')
+    context = {
+        'name': request.user.username,
+    }
+    return render(request, 'index.html',context)
 
 def about_us(request):
     context = {
@@ -102,3 +106,25 @@ def my_account(request):
     }
     return render(request, 'my_account.html',context) 
     
+
+@login_required
+def edit_product(request, id):
+    # Get produk berdasarkan id
+    product = Product.objects.get(pk=id, user=request.user)
+
+    # Set produk sebagai instance dari form
+    form = ProductForm(request.POST or None, request.FILES or None, instance=product)
+
+    if form.is_valid() and request.method == "POST":
+        # Simpan perubahan pada produk
+        form.save()
+        return redirect('main:show_products')
+
+    context = {'form': form}
+    return render(request, "edit_product.html", context)
+
+@login_required
+def delete_product(request, id):
+    product = Product.objects.get(pk = id)
+    product.delete()
+    return HttpResponseRedirect(reverse('main:show_products'))

@@ -247,3 +247,88 @@ Bagaimana Django Mengingat Pengguna yang Telah Login?:
 Django menggunakan session yang disimpan di cookies untuk mengingat pengguna yang login. Cookies juga digunakan untuk menyimpan data seperti last_login.
 
 
+========================================================================================================================================
+
+Tugas 5
+
+1. Fungsi untuk Menghapus dan Mengedit Product:
+Buat fungsi untuk menghapus dan mengedit produk di views.py. Pastikan kita menghubungkan form ke produk yang benar menggunakan ID produk.
+Tambahkan URL routing yang sesuai di urls.py untuk mengarahkan ke fungsi edit dan delete.
+
+2. Kustomisasi desain pada template HTML yang telah dibuat pada tugas-tugas sebelumnya menggunakan CSS atau CSS framework
+Struktur Grid dan Flex: Saya menggunakan flex dan justify-center untuk memusatkan form login secara vertikal dan horizontal. Kelas seperti min-h-screen membantu menjaga halaman tetap proporsional sesuai dengan ukuran layar perangkat yang berbeda.
+
+Penggunaan Border dan Shadow: Untuk mempercantik form login dll, saya menambahkan border, rounded-lg, dan shadow-md yang memberikan tampilan modern dengan sudut tumpul dan bayangan halus.
+
+Input Fields: Setiap elemen input (username dan password) dibuat menggunakan kelas Tailwind seperti rounded-md, border, dan focus:outline-none agar form terlihat minimalis namun tetap elegan.
+
+{% for product in products %}: Saya menggunakan loop ini untuk menampilkan setiap produk yang ada dalam variabel products, yang merupakan queryset dari model produk yang diteruskan dari views.
+
+{% empty %}: Ini adalah template tag khusus di Django. Jika tidak ada produk dalam queryset products, kode di dalam {% empty %} akan dijalankan, yang dalam hal ini menampilkan pesan bahwa tidak ada produk yang terdaftar beserta gambar ilustrasi.
+
+Jika produk terdaftar di aplikasi, halaman akan menampilkan produk-produk tersebut dalam bentuk card yang diatur dengan tampilan yang responsif:
+
+Card Layout: Setiap produk ditampilkan dalam div yang berkelas bg-white rounded-lg shadow-lg p-4, memberikan tampilan elegan dan terstruktur untuk masing-masing produk. Detail seperti nama produk, harga, dan stok ditampilkan dalam <h2> dan <p>
+
+Tombol Edit dan Delete: Setiap card produk dilengkapi dengan dua tombol aksi, yaitu untuk mengedit dan menghapus produk. 
+
+3. Buatlah navigation bar (navbar) untuk fitur-fitur pada aplikasi yang responsive terhadap perbedaan ukuran device, khususnya mobile dan desktop.
+
+Navbar dimulai dengan menampilkan nama aplikasi atau logo di sisi kiri yang di-link ke halaman utama (home) menggunakan tag <a>. Pada layar kecil dan besar, elemen ini tetap terlihat.
+
+Pada layar besar (desktop), navigasi yang terlihat terdiri dari beberapa link seperti Home, New Arrival, About Us, dan kondisi khusus untuk Login atau My Account jika pengguna sudah login. Ada juga pengecekan untuk beberapa nama pengguna yang secara khusus memiliki akses ke halaman Products.
+
+Ini diatur menggunakan Tailwind CSS class hidden md:flex, yang memastikan link hanya muncul di layar dengan ukuran medium (md) ke atas. Pada layar kecil (mobile), link ini tersembunyi dan akan digantikan dengan menu mobile.
+
+Pada layar kecil, link di navbar akan disembunyikan dan sebagai gantinya muncul tombol hamburger (ikon tiga garis) di kanan navbar. Tombol ini diatur dengan md:hidden sehingga hanya terlihat di layar kecil.
+
+Saat tombol hamburger diklik, menu mobile akan ditampilkan menggunakan JavaScript untuk menambah/menghapus class hidden.
+
+
+Menjawab Pertanyaan
+
+1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+Selektor Inline (ditulis langsung di elemen HTML menggunakan atribut style) memiliki prioritas tertinggi.
+Selektor ID (#id) memiliki prioritas lebih tinggi dibandingkan selektor kelas atau tipe elemen.
+Selektor Kelas (.class), Pseudo-class, dan Atribut memiliki prioritas sedang.
+Selektor Elemen (seperti div, p, dll.) memiliki prioritas terendah. Jika ada beberapa selektor yang berkonflik, browser akan menerapkan yang memiliki prioritas lebih tinggi. Jika dua selektor memiliki tingkat specificity yang sama, selektor yang terakhir didefinisikan di CSS akan diterapkan.
+
+2. Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design!
+Responsive design memastikan bahwa tampilan aplikasi web dapat menyesuaikan dengan berbagai ukuran layar dan perangkat, mulai dari ponsel hingga desktop. Ini penting karena pengguna dapat mengakses aplikasi dari berbagai perangkat dengan ukuran layar berbeda. Tanpa desain yang responsif, pengguna mungkin kesulitan menavigasi aplikasi pada perangkat kecil. Contoh aplikasi yang sudah menerapkan responsive design adalah Google.com dan Facebook.com, sedangkan beberapa situs yang lebih lama atau aplikasi yang tidak dioptimalkan untuk mobile, seperti situs web lokal yang jarang diperbarui, mungkin belum menerapkan responsive design.
+
+3. Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+Margin: Ruang di luar border elemen. Ini menciptakan jarak antara elemen-elemen yang berbeda.
+Contoh implementasi:
+.element {
+    margin: 20px;
+}
+
+Border: Garis yang mengelilingi elemen. Border terletak di antara margin dan padding.
+Contoh implementasi:
+.element {
+    border: 2px solid black;
+}
+
+Padding: Ruang di dalam elemen, antara konten elemen dan border-nya.
+Contoh implementasi:
+.element {
+    padding: 10px;
+}
+
+4. Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+Flexbox: Flexbox digunakan untuk menyusun elemen-elemen di dalam kontainer dengan cara yang fleksibel dan mudah diatur. Flexbox memungkinkan distribusi ruang secara efisien dan perataan elemen secara responsif dalam satu dimensi (baris atau kolom). 
+Contoh implementasi:
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+Grid Layout: Grid digunakan untuk menyusun elemen-elemen dalam dua dimensi (baris dan kolom). Grid memberikan kontrol yang lebih kompleks untuk tata letak elemen yang lebih rumit. 
+Contoh implementasi:
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+}
+
