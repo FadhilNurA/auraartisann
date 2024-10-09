@@ -12,7 +12,9 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.utils.html import strip_tags
 
 def index(request):
     context = {
@@ -48,13 +50,14 @@ def show_products(request):
     return render(request, 'products.html', context) # Mengarahkan ke template "products.html"
 
 def show_json(request):
-    products = Product.objects.all()
-    data = serializers.serialize('json', products)
-    return HttpResponse(data, content_type='application/json')
+    data = Product.objects.filter(user=request.user)  
+    json_data = serializers.serialize('json', data)
+    return HttpResponse(json_data, content_type='application/json')
 
 def show_xml(request):
-    products = Product.objects.all()
-    data = serializers.serialize('xml', products) 
+    data = Product.objects.filter(user=request.user)  
+    xml_data = serializers.serialize('xml', data)
+    return HttpResponse(xml_data, content_type='application/xml')
 
 def show_json_by_id(request, id):
     data = Product.objects.filter(pk=id)
@@ -86,6 +89,8 @@ def login_user(request):
         response = HttpResponseRedirect(reverse("main:my_account"))
         response.set_cookie('last_login', str(datetime.datetime.now()))
         return response
+      else:
+        messages.error(request, "Invalid username or password. Please try again.")
 
    else:
       form = AuthenticationForm(request)
@@ -128,3 +133,32 @@ def delete_product(request, id):
     product = Product.objects.get(pk = id)
     product.delete()
     return HttpResponseRedirect(reverse('main:show_products'))
+
+@csrf_exempt
+@require_POST
+def create_product_ajax(request):
+    name = strip_tags(request.POST.get("name"))  # Menghapus tag HTML
+    price = request.POST.get("price")
+    stock = request.POST.get("stock")
+    user = request.user
+
+    # Validasi data sebelum menyimpannya
+    if name and price and stock:
+        try:
+            price = float(price)
+            stock = int(stock)
+
+            # Membuat objek produk baru
+            new_product = Product(
+                name=name,
+                price=price,
+                stock=stock,
+                user=user
+            )
+            new_product.save()
+
+            return HttpResponse("Product created successfully!", status=201)
+
+        except (ValueError, TypeError):
+            return HttpResponse("Invalid price or stock value.", status=400)
+    

@@ -332,3 +332,57 @@ Contoh implementasi:
     grid-gap: 10px;
 }
 
+========================================================================================================================================
+Tugas 6
+
+1. Mengubah kode "cards data mood" untuk mendukung AJAX GET:
+Saya mulai dengan membuat fungsi getProducts() yang menggunakan fetch() untuk mengambil data produk dari URL yang sudah diatur di server Django. URL ini mengembalikan data dalam format JSON yang berisi daftar produk pengguna yang sedang login.
+Selanjutnya, data yang didapat dari server diproses di refreshProducts() untuk menampilkan daftar produk secara asinkron di halaman utama. Proses ini berjalan tanpa me-reload halaman. Jika tidak ada produk yang tersedia, saya menampilkan pesan sedih menggunakan gambar.
+
+2. Menggunakan AJAX POST untuk menambahkan mood/produk:
+Saya membuat sebuah modal yang berfungsi sebagai form input untuk menambahkan produk baru. Modal ini di-trigger oleh sebuah tombol "Add New Product" di halaman utama.
+Saat tombol "Save" diklik, fungsi JavaScript menggunakan AJAX POST untuk mengirimkan data dari form ke server Django. Fungsi fetch() digunakan untuk mengirim data ini ke URL khusus /create-ajax/.
+Data dikirimkan dengan metode POST, dan saya memastikan untuk menyertakan CSRF token agar permintaan aman dari serangan CSRF.
+
+3. Membuat fungsi view Django untuk menambahkan produk (mood):
+Di backend, saya menambahkan view create_product_ajax yang menerima permintaan POST dari AJAX. Di sini, saya mengambil input dari form dan memprosesnya setelah memvalidasi bahwa data valid (misalnya, price harus berupa angka, dan stock berupa integer).
+Setelah validasi, objek produk baru dibuat dan disimpan ke basis data. Jika berhasil, respons 201 dengan pesan kesuksesan dikirim kembali ke frontend.
+
+4. Penggunaan Modal & Validasi Form:
+Setelah form dikirim, jika berhasil, modal ditutup dan form di-reset. Ini dilakukan dengan memanggil closeModal() yang mengatur ulang form serta menutup modal menggunakan class CSS untuk menyembunyikan modal.
+Jika terjadi kesalahan saat pengiriman data, pesan error akan muncul dan log error ditampilkan di konsol.
+
+5. Keamanan AJAX GET dan POST:
+Dalam view Django untuk POST, saya menggunakan decorator @csrf_exempt untuk mencegah validasi CSRF default Django pada permintaan AJAX ini. Namun, saya tetap menyertakan CSRF token secara manual di header permintaan POST agar tetap aman.
+Pada data input, saya menggunakan strip_tags() pada beberapa field untuk menghindari input yang berbahaya, seperti script injection di nama atau deskripsi produk.
+
+6. Refresh Produk Tanpa Reload Halaman:
+Setelah produk baru berhasil ditambahkan, saya memanggil kembali fungsi refreshProducts() untuk memperbarui daftar produk di halaman utama. Dengan ini, produk baru langsung ditampilkan tanpa perlu me-reload halaman secara keseluruhan.
+
+
+Pertanyaan:
+1. Manfaat Penggunaan JavaScript dalam Pengembangan Aplikasi Web
+JavaScript adalah bahasa pemrograman yang sangat penting dalam pengembangan aplikasi web modern karena memberikan kemampuan untuk membuat halaman web yang interaktif dan dinamis. Beberapa manfaat utama dari penggunaan JavaScript dalam pengembangan aplikasi web meliputi:
+
+Interaktivitas: JavaScript memungkinkan pengguna berinteraksi langsung dengan halaman web tanpa harus me-refresh halaman. Contohnya, penggunaan AJAX yang memungkinkan pengambilan dan pengiriman data secara asinkron.
+Responsivitas: JavaScript dapat memperbarui konten halaman secara real-time, membuat pengalaman pengguna lebih cepat dan responsif, seperti saat pengguna menambahkan produk pada aplikasi e-commerce.
+Validasi Form: JavaScript dapat melakukan validasi data input di sisi pengguna (frontend), yang membantu mencegah kesalahan sebelum data dikirim ke server.
+
+2. Fungsi dari Penggunaan await Ketika Menggunakan fetch()
+await adalah bagian dari sintaks JavaScript yang digunakan untuk menangani operasi asinkron. Saat kita menggunakan fetch(), operasi tersebut berjalan secara asinkron untuk mengambil data dari server. Fungsi dari penggunaan await ketika menggunakan fetch() adalah:
+
+Menunggu Hasil: await membuat kode berhenti sementara hingga hasil dari fetch() selesai, sehingga kode selanjutnya tidak akan dieksekusi sampai data telah diterima. Ini mencegah kode yang bergantung pada hasil fetch() dieksekusi sebelum waktunya.
+
+3. Mengapa Perlu Menggunakan Decorator csrf_exempt pada View yang Digunakan untuk AJAX POST?
+Django memiliki mekanisme keamanan yang disebut Cross-Site Request Forgery (CSRF), yang digunakan untuk mencegah permintaan yang tidak sah dari situs web eksternal. Ketika kita melakukan permintaan POST dari JavaScript (AJAX), Django secara default memeriksa CSRF token untuk memastikan permintaan tersebut sah.
+
+Namun, dalam AJAX POST yang tidak menggunakan form HTML standar, token CSRF mungkin tidak disertakan secara otomatis. Oleh karena itu, kita menggunakan decorator @csrf_exempt pada view yang akan digunakan untuk AJAX POST agar permintaan bisa diproses tanpa pemeriksaan CSRF yang default. 
+
+4. Mengapa Pembersihan Data Input Pengguna Dilakukan di Backend (Backend Validation)?
+Pembersihan data input pengguna tidak cukup jika hanya dilakukan di frontend, meskipun frontend validation membantu mencegah kesalahan dan memperbaiki pengalaman pengguna. Berikut alasan mengapa backend tetap harus membersihkan dan memvalidasi data:
+
+Keamanan: Frontend dapat dimanipulasi oleh pengguna atau attacker yang berpengalaman. Pengguna bisa mengubah skrip atau menonaktifkan validasi di sisi frontend menggunakan alat seperti DevTools. Oleh karena itu, backend harus memverifikasi dan membersihkan data untuk mencegah injeksi kode berbahaya (misalnya XSS atau SQL Injection).
+Integritas Data: Backend bertanggung jawab untuk memastikan bahwa hanya data yang valid yang disimpan dalam basis data. Pembersihan dan validasi di backend memastikan bahwa data yang tersimpan sesuai dengan aturan yang ditetapkan aplikasi, seperti jenis data yang benar, panjang maksimum, dan lainnya.
+Pengalaman yang Konsisten: Meski frontend bisa membantu memvalidasi, backend memastikan bahwa validasi tetap dilakukan secara konsisten, bahkan jika permintaan datang dari API atau alat lain yang tidak menggunakan antarmuka pengguna biasa.
+
+

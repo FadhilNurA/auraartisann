@@ -5,6 +5,7 @@ from main.views import login_user
 from main.views import logout_user
 from main.views import edit_product
 from main.views import delete_product
+from main.views import create_product_ajax
 
 
 app_name = 'main'
@@ -24,5 +25,6 @@ urlpatterns = [
     path('my_account/', views.my_account, name='my_account'),
     path('edit-product/<uuid:id>', edit_product, name='edit_product'),
     path('delete/<uuid:id>', delete_product, name='delete_product'), # sesuaikan dengan nama fungsi yang dibuat
+    path('create-product-ajax', create_product_ajax, name='create_product_ajax'),
 
 ]
